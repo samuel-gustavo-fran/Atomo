@@ -1,4 +1,3 @@
-
 class Atomo:
     def __init__(self,massa:int,numero:int,carga:int=0):
         self.massa = massa
@@ -7,7 +6,9 @@ class Atomo:
         self.neutrons = massa - numero
         self.eletrons = numero - carga
     def de(self)-> list:
-        'distribução eletronica'
+        '''
+        distribução eletronica
+        '''
         eletrons = self.eletrons 
         ordem = [
         ('1s', 2), ('2s', 2), ('2p', 6), ('3s', 2),
@@ -38,3 +39,28 @@ class Atomo:
             de_simple[0:3] = ['[Rn]']
         
         return de_simple
+def iselement(atomo1:Atomo,atomo2:Atomo):
+    if atomo1.numero == atomo2.numero:
+        return True
+    else:
+        return False
+def isotopos(atomo1:Atomo,atomo2:Atomo):
+    if atomo1.massa != atomo2.massa and iselement(atomo1,atomo2):
+        return True
+    else:
+        return False
+def isobaros(atomo1:Atomo,atomo2:Atomo):
+    if atomo1.massa == atomo2.massa and not iselement(atomo1,atomo2):
+        return True
+    else:
+        return False
+def isotonos(atomo1:Atomo,atomo2:Atomo):
+    if not iselement(atomo1,atomo2) and atomo1.neutrons == atomo2.neutrons:
+        return True
+    else:
+        return False
+def isoeletronico(atomo1:Atomo,atomo2:Atomo):
+    if atomo1.eletrons == atomo2.eletrons:
+        return True
+    else:
+        return False
