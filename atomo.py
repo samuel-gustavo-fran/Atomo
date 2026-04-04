@@ -5,6 +5,7 @@ class Atomo:
         self.protons = numero
         self.neutrons = massa - numero
         self.eletrons = numero - carga
+    
     def de(self)-> list:
         '''
         distribução eletronica
@@ -27,16 +28,18 @@ class Atomo:
         return distribuicao
     def de_simple(self):
         de_simple = self.de()
-        if len(self.de()) > 3 and len(self.de()) < 5:
+        if len(self.de()) > 3 and len(self.de()) <= 5:
             de_simple[0:3] = ['[Ne]']
-        elif len(self.de()) > 5 and len(self.de()) < 8:
-            de_simple[0:3] = ['[Ar]']
-        elif len(self.de()) > 8 and len(self.de()) < 11:
-            de_simple[0:3] = ['[Kr]']
-        elif len(self.de()) > 11 and len(self.de()) < 15:
-            de_simple[0:3] = ['[Xe]']
+        elif len(self.de()) > 5 and len(self.de()) <= 8:
+            de_simple[0:5] = ['[Ar]']
+        elif len(self.de()) > 8 and len(self.de()) <= 11:
+            de_simple[0:8] = ['[Kr]']
+        elif len(self.de()) > 11 and len(self.de()) <= 15:
+            de_simple[0:11] = ['[Xe]']
+        elif len(self.de()) > 15 and len(self.de()) <= 19:
+            de_simple[0:15] = ['[Rn]']
         else:
-            de_simple[0:3] = ['[Rn]']
+            raise ValueError('Distribuição invalida')
         
         return de_simple
 def iselement(atomo1:Atomo,atomo2:Atomo):
