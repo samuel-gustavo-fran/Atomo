@@ -5,12 +5,17 @@ class Atomo:
         self.protons = numero
         self.neutrons = massa - numero
         self.eletrons = numero - carga
-    
-    def de(self)-> list:
+        self.carga = carga
+        if carga > 3 or carga < -3:
+            raise ValueError('carga irreal')
+    def de(self) ->list:
         '''
         distribução eletronica
         '''
-        eletrons = self.eletrons 
+        if  self.carga > 0:
+            eletrons = self.protons
+        else:
+            eletrons = self.eletrons
         ordem = [
         ('1s', 2), ('2s', 2), ('2p', 6), ('3s', 2),
         ('3p', 6), ('4s', 2), ('3d', 10), ('4p', 6),
@@ -25,7 +30,33 @@ class Atomo:
             qtd = min(eletrons, capacidade)
             distribuicao.append(f"{subnivel}{qtd}")
             eletrons -= qtd
-        return distribuicao
+        if self.carga <= 0:
+            return distribuicao
+        else:
+            sub = self.carga
+            new_distribuicao = distribuicao[::-1]
+            valencia = 0
+            for x in new_distribuicao:
+                if int(x[0]) > valencia:
+                    valencia = int(x[0])
+            for i in distribuicao[::-1]:
+                camada = int(i[0])
+                elesub = int(i[2:])
+                if sub <= 0:
+                    break
+                if camada == valencia:
+                    if elesub > sub:
+                        new_distribuicao[new_distribuicao.index(i)] = i[:2] + str(elesub - sub)
+                        break
+                    else:
+                        sub = sub - int(i[2:])
+                        new_distribuicao.remove(i)
+                        valencia = 0
+                        for x in new_distribuicao:
+                            if int(x[0]) > valencia:
+                                valencia = int(x[0])
+            return new_distribuicao[::-1]
+
     def de_simple(self):
         de_simple = self.de()
         if len(self.de()) > 3 and len(self.de()) <= 5:
